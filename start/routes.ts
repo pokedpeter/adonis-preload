@@ -19,29 +19,19 @@
 */
 
 import Route from '@ioc:Adonis/Core/Route'
-// import Database from '@ioc:Adonis/Lucid/Database'
+import Database from '@ioc:Adonis/Lucid/Database'
 import Post from 'App/Models/Post'
 
 Route.get('/', async () => {
-  // const post = await Database.transaction(async (trx) => {
-  //   const post = await Post.query()
-  //     .preload('user')
-  //     .useTransaction(trx)
-  //     .forUpdate()
-  //     .first()
-
-  //   return post
-  // })
-
-  // const post = await Database.transaction(async (trx) => {
+  const post = await Database.transaction(async (trx) => {
     const post = await Post.query()
       .preload('user')
-      // .useTransaction(trx)
-      // .forUpdate()
+      .useTransaction(trx)
+      .forUpdate()
       .first()
 
-    // return post
-  // })
+    return post
+  })
 
   return post
 })
